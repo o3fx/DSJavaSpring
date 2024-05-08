@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 public class Board extends JPanel implements KeyListener {
@@ -12,24 +12,33 @@ public class Board extends JPanel implements KeyListener {
     private static final int B_WIDTH = 800;
     private static final int B_HEIGHT = 450;
     private static final int FLOOR = B_HEIGHT - 25;
+    Image image;
 
     public Board() {
+        image = new ImageIcon("sm_cannon.png").getImage();
         setBackground(Color.CYAN);
         setPreferredSize(new Dimension(B_WIDTH, B_HEIGHT));
 
         this.setFocusable(true);
         this.addKeyListener(this); 
+        
     }
 
     // This overrides paint component
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-
+ 
+        g.drawImage(image, 0, 0, null);
         g.setColor(Color.BLACK);
         g.drawLine(0, FLOOR, B_WIDTH, FLOOR);
         g.setColor(Color.GREEN);
         g.fillRect(0, FLOOR + 1, B_WIDTH, B_HEIGHT - FLOOR);
+        g.setColor(Color.PINK);
+        int[] xPoints = {30,60,90};
+        int[] yPoints = {430,380,430};
+        g.fillPolygon(xPoints, yPoints, 3);
+        
     }
 
     @Override
