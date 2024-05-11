@@ -64,18 +64,17 @@ public class Cannon {
             g2d.setColor(Color.BLUE);
             g2d.drawString("Unable to load image!", 25, 25);
         }
-        /*
-        g.setColor(Color.PINK);
-        int[] xPoints = {60,75,90};
-        int[] yPoints = {430,400,430};
-        g.fillPolygon(xPoints, yPoints, 3);
-        g.setColor(Color.BLACK);
+        g2d.setColor(Color.PINK);
+        int[] xPoints = {40,60,80};
+        int[] yPoints = {520,480,520};
+        g2d.fillPolygon(xPoints, yPoints, 3);
+        g2d.setColor(Color.BLACK);
         int[] x = {60,75,90};
-        int[] y = {430,400,430};
-        g.drawPolygon(xPoints, yPoints, 3);
-        g.setColor(Color.BLUE);
-        g.fillOval(72, 400, 7, 7);
-        */
+        int[] y = {520,450,520};
+        g2d.drawPolygon(xPoints, yPoints, 3);
+        g2d.setColor(Color.BLUE);
+        g2d.fillOval(57, 480, 7, 7);
+    
     }
     public void rotateCCW(){
         angle = angle - 5;
