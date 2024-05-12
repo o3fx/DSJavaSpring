@@ -20,7 +20,9 @@ public class Board extends JPanel implements KeyListener, MouseListener {
     private SoundClip soundBlop;
     private int x;
     private int y;
+    private int c = 0;
     PlayAudio playAudio;
+    
     
 
     
@@ -37,17 +39,22 @@ public class Board extends JPanel implements KeyListener, MouseListener {
         soundBlip.open();
         soundBlop = new SoundClip("media/blop.wav");
         soundBlop.open();
+        playAudio = new PlayAudio();
         
     }
 
     @Override
     // This overrides paint component
     public void paintComponent(Graphics g) {
-        super.paintComponent(g);
+        super.paintComponent(g); 
         Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(Color.MAGENTA);
-
-        g2d.fillOval(225,225,50,50);
+        if (c == 0){
+            x = 225;
+            y = 225;
+            c = c + 1;
+        }
+        g2d.fillOval(x, y, 50,50);
 
     
     }
@@ -64,6 +71,9 @@ public class Board extends JPanel implements KeyListener, MouseListener {
     public void keyPressed(KeyEvent e) {
         if(e.getKeyCode() == KeyEvent.VK_SPACE) {
             playAudio.pBlop();
+            x = 225;
+            y = 225;
+            repaint();
         }
         
     }
@@ -79,6 +89,9 @@ public class Board extends JPanel implements KeyListener, MouseListener {
     @Override
     public void mousePressed(MouseEvent e) {
         playAudio.pBlip();
+        x = e.getX();
+		y = e.getY();
+        repaint();
     }
 
     @Override

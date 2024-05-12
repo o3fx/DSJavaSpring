@@ -3,8 +3,10 @@ package animate;
 public class PlayAudio {
     private SoundClip soundBlip;
     private SoundClip soundBlop;
+    private int x;
+    private int y;
     
-    public void Play(){
+    public PlayAudio() {
         soundBlip = new SoundClip("media/blip.wav");
         soundBlip.open();
         soundBlop = new SoundClip("media/blop.wav");
