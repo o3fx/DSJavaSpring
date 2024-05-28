@@ -31,6 +31,12 @@ public class Cannon {
     private double angle = -45; //Degrees not raidians
     private SoundClip soundCannon;
     private SoundClip soundRotate;
+    private SoundClip song;
+    private SoundClip fireA;
+    private double H = 100;
+    private double Vm = 25;
+    private Cannonball cannonball;
+    private Cannon cannon;
 
 
     public Cannon(){
@@ -48,6 +54,7 @@ public class Cannon {
         soundCannon.open();
         soundRotate = new SoundClip("media/wheel.wav");
         soundRotate.open();
+        song = new SoundClip("media/song.mp3");
         
     }
     
@@ -74,6 +81,11 @@ public class Cannon {
         g2d.drawPolygon(xPoints, yPoints, 3);
         g2d.setColor(Color.BLUE);
         g2d.fillOval(57, 480, 7, 7);
+        g2d.drawString("Use left/right arrows to adjust angle", 365, 50);
+        g2d.drawString("Use up/down arrows to adjust time scale", 355, 75);
+        g2d.drawString("Use space key to fire cannon", 380, 100);
+        g2d.drawString("The angle of the cannon is = " + Math.abs(angle), 380, 125);
+        //g2d.drawString("The time scale is = " + cannonball.getTimeScale(), 380, 150);
     
     }
     public void rotateCCW(){
@@ -92,11 +104,31 @@ public class Cannon {
     }
     public void fire(){
         soundCannon.play();
+        song.play();
+    }
+    public void fire(Cannonball ball){
+        double xo = H * Math.cos(Math.abs(Math.toRadians(angle)));
+        double yo = H * Math.sin(Math.abs(Math.toRadians(angle)));
+        double vx = Vm * Math.cos(Math.abs(Math.toRadians(angle)));
+        double vy = Vm * Math.sin(Math.abs(Math.toRadians(angle)));
+        ball.launch(60+xo, 480-yo, vx, -vy);
+        fire();
+    }
+
+    public void explode(){
+        try {
+            File imgFile = new File("media/flame04.png");
+            img = ImageIO.read(imgFile);
+        } catch (Exception e) {
+            System.err.println("unable to open image file!");
+            System.err.println(e.getMessage());
+
+        }
     }
 
     
     
  
-    
+    //vy = vy + ay
 
 }

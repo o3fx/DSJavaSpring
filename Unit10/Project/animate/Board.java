@@ -7,6 +7,8 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -16,7 +18,12 @@ public class Board extends JPanel implements KeyListener {
     private static final int B_WIDTH = 960;
     private static final int B_HEIGHT = 540;
     private static final int FLOOR = B_HEIGHT - 25;
-    Cannon cannon;
+    private final int PERIOD_INTERVAL = 20;
+    private Cannon cannon;
+    private Cannonball cannonball;
+    private Timer timer;
+    private final int INITIAL_DELAY = 0;
+    private final int TIMER_INTERVAL = 20;
     
 
     
@@ -27,17 +34,10 @@ public class Board extends JPanel implements KeyListener {
         this.setFocusable(true);
         this.addKeyListener(this);
         cannon = new Cannon();
-        
-        /* 
-        cannon = new Cannon("media/cannon.wav");
-        cannon.open();
-    
-        cannon.play();
-        wheel = new Cannon("media/ow.wav");
-        wheel.open();
-        */
-       
-
+        cannonball = new Cannonball(0,1,480);
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new ScheduledUpdate(),
+                INITIAL_DELAY, TIMER_INTERVAL);
     }
 
     @Override
@@ -54,8 +54,16 @@ public class Board extends JPanel implements KeyListener {
         
         Graphics2D g2d = (Graphics2D) g;
         cannon.draw(g2d);
+        cannonball.draw(g2d);
 
         
+    }
+    private class ScheduledUpdate extends TimerTask {
+        public void run(){
+            cannonball.updateBall();
+
+            repaint();
+        }
     }
 
     @Override
@@ -71,7 +79,8 @@ public class Board extends JPanel implements KeyListener {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_SPACE:
                 System.out.println("SPACE button is pressed");
-                cannon.fire();
+                cannon.fire(cannonball);
+            
                 break;
             case KeyEvent.VK_LEFT:
                 System.out.println("LEFT button is pressed");
@@ -85,9 +94,13 @@ public class Board extends JPanel implements KeyListener {
                 break;
             case KeyEvent.VK_DOWN:
                 System.out.println("DOWN button is pressed");
+                cannonball.changeTimeScale(-1);
+                repaint();
                 break;
             case KeyEvent.VK_UP:
                 System.out.println("UP button is pressed");
+                cannonball.changeTimeScale(1);
+                repaint();
                 break;
             default:
                 System.out.println("Another key is pressed");
