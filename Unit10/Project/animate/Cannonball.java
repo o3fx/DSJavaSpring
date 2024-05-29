@@ -26,6 +26,7 @@ public class Cannonball {
     private double timescale = 1;
     private SoundClip boom;
     private BufferedImage flame;
+    private int c;
 
     public Cannonball(double ax, double ay, double ground) {
         this.ax = ax;
